@@ -2,8 +2,8 @@
 using ConsoleApp.NaiveBayes;
 
 string filePath = "ConsoleApp/Data/dry_bean_dataset.csv";
-string trainDataPath = "ConsoleApp/Data/dry_bean_dataset_train.csv";
-string testDataPath = "ConsoleApp/Data/dry_bean_dataset_test.csv";
+// string trainDataPath = "ConsoleApp/Data/dry_bean_dataset_train.csv";
+// string testDataPath = "ConsoleApp/Data/dry_bean_dataset_test.csv";
 
 DataProcessing dataProcessing = new DataProcessing(filePath);
 
@@ -19,6 +19,8 @@ DataProcessing dataProcessing = new DataProcessing(filePath);
 
 // TODO: Create NaiveBayes and KNN Algorithms And Test Them
 
+// if you want to save the NaiveBayes model give true as Constructor Parameter as "saveModel: true"
+// if you already saved a model give saved model's path as path
 NaiveBayes naiveBayes = new NaiveBayes();
 
 System.Console.WriteLine(naiveBayes.Mean(new double[] { 27, 16, 5 }));
