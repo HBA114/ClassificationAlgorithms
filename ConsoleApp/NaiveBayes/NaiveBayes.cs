@@ -2,15 +2,16 @@ namespace ConsoleApp.NaiveBayes;
 public class NaiveBayes
 {
     private bool _saveModel;
-    private string? _modelPath;
-    private string? modelData;
+    private string _modelPath;
+    private List<string> modelData;
     public NaiveBayes(bool saveModel = false, string modelPath = "")
     {
         _saveModel = saveModel;
         _modelPath = modelPath;
+        modelData = new List<string>();
     }
 
-    public void TrainNaiveBayesModel(List<string> trainData)
+    public async Task TrainNaiveBayesModelAsync(List<string> trainData)
     {
         // her sınıf için ortalama ve standart sapma değerleri hesaplanır.
         // bir dosyaya burada karşılaşılan ger sınıf için gerekli veriler kaydedilir ve model kaydedilmiş olur.
@@ -20,13 +21,14 @@ public class NaiveBayes
         for (int i = 1; i < trainData.Count(); i++)
         {
             List<string> columns = trainData[i].Split(",").ToList();
-            if (columns[columns.Count] != className)
+            if (columns[columns.Count() - 1] != className)
             {
                 //! class changed make calculations and assign them to variable
-                CalculateAndWriteFromValues(values, className);
+                //! Barbunya gelince NullReference Döndürüyor!!
+                await CalculateAndWriteFromValuesAsync(values, className);
 
                 // clearing list and updating className variable
-                className = columns[columns.Count];
+                className = columns[columns.Count() - 1];
                 values.Clear();
             }
             else
@@ -45,25 +47,35 @@ public class NaiveBayes
     {
         // her sınıf için hesaplanan veriler kullanılarak test verisinin sınıfı tahmin edilmeli.
         // her tahmin doğruluğu veya yanlışlığı belirlenerek listelenmeli ve sonuç olarak doğruluk ölçüsü Accuracy gösterilmeli.
+        //TODO test datasetin her bir satırı için :
+        //TODO      modelData verisindeki her sınıfın her sütunu için olan verilerinden 
+        //TODO      en yakın olanları hangisi ise onu seç ve test verisi içindeki sınıf ismi
+        //TODO      ile karşılaştırarak doğruluk oranı (accuracy) hesaplamasını yap!
     }
 
-    private void CalculateAndWriteFromValues(List<List<double>> values, string className)
+    private async Task CalculateAndWriteFromValuesAsync(List<List<double>> values, string className)
     {
+        if (values.Count() == 0) return;
         List<double> data;
+        int j = 0;
         for (int i = 0; i < values[0].Count(); i++)
         {
             data = new List<double>();
-            for (int j = 0; j < values.Count(); j++)
+            for (j = 0; j < values.Count(); j++)
             {
                 data.Add(values[j][i]);
             }
-            double mean = Mean(data.ToArray());
-            double standartDeviation = StandartDeviation(data.ToArray());
-            if (_modelPath != "")
-            {
-                // ConsoleApp/Data/Models/NaiveBayes.csv
-                
-            }
+            string mean = Mean(data.ToArray()).ToString().Replace(",", ".");
+            string standartDeviation = StandartDeviation(data.ToArray()).ToString().Replace(",", ".");
+
+            string classData = "";
+            classData += className + "," + mean + "," + standartDeviation;
+            modelData.Add(classData);
+        }
+
+        if (_modelPath != "")
+        {
+            await File.WriteAllLinesAsync(_modelPath, modelData);
         }
     }
 
