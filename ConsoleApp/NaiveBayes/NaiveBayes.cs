@@ -50,7 +50,7 @@ public class NaiveBayes
         //TODO      modelData verisindeki her sınıfın her sütunu için olan verilerinden 
         //TODO      en yakın olanları hangisi ise onu seç ve test verisi içindeki sınıf ismi
         //TODO      ile karşılaştırarak doğruluk oranı (accuracy) hesaplamasını yap!
-        CalculateBeanClass(testDataSet[1]);
+        CalculateBeanClass(testDataSet[2291]);
         // 1    -   8.28548992717679E-05
         // 4050 -   8.28548992717679E-05
         // 2600 -   8.28548992717679E-05
@@ -131,10 +131,10 @@ public class NaiveBayes
                 double beanVal = double.Parse(beanDataColumns[i].Replace(".", ","));
 
                 double firstArea = standartDeviation * Math.Sqrt(2 * Math.PI);
-                double secondArea = Math.Pow((beanVal - mean) / standartDeviation, 2);
+                double secondArea = -Math.Pow((beanVal - mean) / standartDeviation, 2) / 2;
 
                 double value = 1 / firstArea *
-                            Math.Pow(Math.E, (-1 / 2) * secondArea);
+                            Math.Pow(Math.E, secondArea);
                 pos.Add(data[0], value);
             }
             possibilities.Add(pos);
@@ -174,6 +174,19 @@ public class NaiveBayes
         }
 
         System.Console.WriteLine(finalPercentile);
+        double max = 0;
+        string predictedClass = "";
+        foreach (var percentile in finalPercentile)
+        {
+            if (percentile.Value > max)
+            {
+                max = percentile.Value;
+                predictedClass = percentile.Key;
+            }
+        }
+
+        System.Console.WriteLine(predictedClass);
+        System.Console.WriteLine("HaHahahahha");
     }
 
     public void CalculateYesNoSample(double temp)
