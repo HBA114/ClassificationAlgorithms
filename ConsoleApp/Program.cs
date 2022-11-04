@@ -31,4 +31,11 @@ List<string> testData = seperatedData.Item2;
 
 NaiveBayes naiveBayes = new NaiveBayes(saveModel: true, modelPath: naiveBayesModelPath);
 
+System.Console.WriteLine(naiveBayes.Mean(new double[] { 1, 2, 3, 4 }));
+
+// var allData = await File.ReadAllLinesAsync(filePath);
+// List<string> allDataList = allData.ToList();
+
 await naiveBayes.TrainNaiveBayesModelAsync(trainData: trainData);
+
+naiveBayes.TestNaiveBayesModel(testDataSet: testData);
