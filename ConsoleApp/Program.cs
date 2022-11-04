@@ -45,5 +45,5 @@ NaiveBayes naiveBayes = new NaiveBayes(saveModel: true, modelPath: naiveBayesMod
 await naiveBayes.TrainNaiveBayesModelAsync(trainData: trainData);
 
 double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataSet: testData);
-System.Console.WriteLine("Accuracy : " + Math.Round(naiveBayesTestResult, 2));
-System.Console.WriteLine("Accuracy : " + Math.Round(naiveBayesTestResult, 2) * 100 + "%");
+System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2));
+System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2) * 100 + "%");
