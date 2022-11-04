@@ -42,7 +42,7 @@ public class NaiveBayes
         }
     }
 
-    public void TestNaiveBayesModel(List<string> testDataSet)
+    public double TestNaiveBayesModel(List<string> testDataSet)
     {
         // her sınıf için hesaplanan veriler kullanılarak test verisinin sınıfı tahmin edilmeli.
         // her tahmin doğruluğu veya yanlışlığı belirlenerek listelenmeli ve sonuç olarak doğruluk ölçüsü Accuracy gösterilmeli.
@@ -50,10 +50,19 @@ public class NaiveBayes
         //TODO      modelData verisindeki her sınıfın her sütunu için olan verilerinden 
         //TODO      en yakın olanları hangisi ise onu seç ve test verisi içindeki sınıf ismi
         //TODO      ile karşılaştırarak doğruluk oranı (accuracy) hesaplamasını yap!
-        CalculateBeanClass(testDataSet[2291]);
-        // 1    -   8.28548992717679E-05
-        // 4050 -   8.28548992717679E-05
-        // 2600 -   8.28548992717679E-05
+
+        int sumTrue = 0;
+        for (int i = 1; i < testDataSet.Count(); i++)
+        {
+            if (CalculateBeanClass(testDataSet[i]))
+                sumTrue++;
+        }
+
+        System.Console.WriteLine("True Prediction Count = " + sumTrue);
+        System.Console.WriteLine("Data Count = " + (testDataSet.Count() - 1));
+        // testDataSet.Count() - 1 because first line is contains column names
+        double accuracy = (double)sumTrue / (double)(testDataSet.Count() - 1);
+        return accuracy;
     }
 
     private async Task CalculateAndWriteFromValuesAsync(List<List<double>> values, string className)
@@ -112,7 +121,7 @@ public class NaiveBayes
         return Math.Sqrt(sum);
     }
 
-    private void CalculateBeanClass(string beanData)
+    private bool CalculateBeanClass(string beanData)
     {
         int dataCountForClass = modelData.Count() / classCount;
         List<string> beanDataColumns = beanData.Split(",").ToList();
@@ -140,7 +149,7 @@ public class NaiveBayes
             possibilities.Add(pos);
         }
 
-        System.Console.WriteLine(possibilities);
+        // System.Console.WriteLine(possibilities);
         List<Dictionary<string, double>> percentiles = new List<Dictionary<string, double>>();
         foreach (var possibility in possibilities)
         {
@@ -173,7 +182,7 @@ public class NaiveBayes
             }
         }
 
-        System.Console.WriteLine(finalPercentile);
+        // System.Console.WriteLine(finalPercentile);
         double max = 0;
         string predictedClass = "";
         foreach (var percentile in finalPercentile)
@@ -185,8 +194,9 @@ public class NaiveBayes
             }
         }
 
-        System.Console.WriteLine(predictedClass);
-        System.Console.WriteLine("HaHahahahha");
+        // System.Console.WriteLine(predictedClass);
+
+        return predictedClass.Equals(beanDataColumns[beanDataColumns.Count() - 1]);
     }
 
     public void CalculateYesNoSample(double temp)

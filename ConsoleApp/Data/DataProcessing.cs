@@ -22,14 +22,14 @@ public class DataProcessing
         List<string> data = await ReadData();
         List<string> classes = SeperateClasses(data);
 
-        System.Console.WriteLine("TrainPercentile = " + trainDataPercentile.ToString());
+        // System.Console.WriteLine("TrainPercentile = " + trainDataPercentile.ToString());
         // TODO: Her bir sınıf için test ve eğitim verisinde çeşitliliğin sağlanması gerekir.
 
         int trainDataCounter = Int32.Parse((trainDataPercentile * 10).ToString());
         int testDataCounter = 10 - trainDataCounter;
 
-        System.Console.WriteLine("TrainDataCounter : " + trainDataCounter);
-        System.Console.WriteLine("TestDataCounter : " + testDataCounter);
+        // System.Console.WriteLine("TrainDataCounter : " + trainDataCounter);
+        // System.Console.WriteLine("TestDataCounter : " + testDataCounter);
 
         // Add Column Headers each data
         trainData.Add(data[0]);
