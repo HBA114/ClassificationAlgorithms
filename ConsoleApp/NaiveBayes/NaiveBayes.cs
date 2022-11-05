@@ -12,17 +12,17 @@ public class NaiveBayes
         modelData = new List<string>();
     }
 
-    public async Task TrainNaiveBayesModelAsync(List<string> trainData)
+    public async Task TrainNaiveBayesModelAsync(List<string> trainDataset)
     {
         // her sınıf için ortalama ve standart sapma değerleri hesaplanır.
         // bir dosyaya burada karşılaşılan ger sınıf için gerekli veriler kaydedilir ve model kaydedilmiş olur.
         // modeli kaydetmek istenilmemesi durumunda String değişken içerisinde dosyada saklanacağı gibi saklanır.
         string className = "";
         List<List<double>> values = new List<List<double>>();
-        for (int i = 1; i < trainData.Count(); i++)
+        for (int i = 1; i < trainDataset.Count(); i++)
         {
-            List<string> columns = trainData[i].Split(",").ToList();
-            if (columns[columns.Count() - 1] != className || i == trainData.Count() - 1)
+            List<string> columns = trainDataset[i].Split(",").ToList();
+            if (columns[columns.Count() - 1] != className || i == trainDataset.Count() - 1)
             {
                 classCount++;
                 //! class changed make calculations and assign them to variable
@@ -42,7 +42,7 @@ public class NaiveBayes
         }
     }
 
-    public double TestNaiveBayesModel(List<string> testDataSet)
+    public double TestNaiveBayesModel(List<string> testDataset)
     {
         // her sınıf için hesaplanan veriler kullanılarak test verisinin sınıfı tahmin edilmeli.
         // her tahmin doğruluğu veya yanlışlığı belirlenerek listelenmeli ve sonuç olarak doğruluk ölçüsü Accuracy gösterilmeli.
@@ -52,16 +52,16 @@ public class NaiveBayes
         //TODO      ile karşılaştırarak doğruluk oranı (accuracy) hesaplamasını yap!
 
         int sumTrue = 0;
-        for (int i = 1; i < testDataSet.Count(); i++)
+        for (int i = 1; i < testDataset.Count(); i++)
         {
-            if (CalculateBeanClass(testDataSet[i]))
+            if (CalculateBeanClass(testDataset[i]))
                 sumTrue++;
         }
 
         System.Console.WriteLine("True Prediction Count = " + sumTrue);
-        System.Console.WriteLine("Data Count = " + (testDataSet.Count() - 1));
+        System.Console.WriteLine("Data Count = " + (testDataset.Count() - 1));
         // testDataSet.Count() - 1 because first line is contains column names
-        double accuracy = (double)sumTrue / (double)(testDataSet.Count() - 1);
+        double accuracy = (double)sumTrue / (double)(testDataset.Count() - 1);
         return accuracy;
     }
 

@@ -1,4 +1,5 @@
 ﻿using ConsoleApp.Data;
+using ConsoleApp.KNN;
 using ConsoleApp.NaiveBayes;
 
 string datasetCSVFilePath = "Data/dry_bean_dataset.csv";
@@ -42,8 +43,15 @@ NaiveBayes naiveBayes = new NaiveBayes(saveModel: true, modelPath: naiveBayesMod
 // var allData = await File.ReadAllLinesAsync(filePath);
 // List<string> allDataList = allData.ToList();
 
-await naiveBayes.TrainNaiveBayesModelAsync(trainData: trainData);
+await naiveBayes.TrainNaiveBayesModelAsync(trainDataset: trainData);
 
-double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataSet: testData);
+double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataset: testData);
 System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2));
 System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2) * 100 + "%");
+
+KNN knn = new KNN();
+
+double knnTestResult = knn.TestKNN(trainDataset: trainData, testDataset: testData, K: 5, useWeights: true);
+
+System.Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2));
+System.Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2) * 100 + "%");
