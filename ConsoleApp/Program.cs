@@ -51,7 +51,14 @@ System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestRe
 
 KNN knn = new KNN();
 
-double knnTestResult = knn.TestKNN(trainDataset: trainData, testDataset: testData, K: 5, useWeights: true);
+// await knn.TrainKNN(trainDataset: trainData);
+
+// double knnTestResult = knn.TestKNN(testDataset: testData, K: 7);
+
+// System.Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2));
+// System.Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2) * 100 + "%");
+
+double knnTestResult = knn.TestKNN(trainDataset: trainData, testDataset: testData, K: 5, useWeights: false);
 
 System.Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2));
 System.Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2) * 100 + "%");
