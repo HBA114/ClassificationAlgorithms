@@ -10,72 +10,10 @@ public class KNN
         trainedData = new List<string>();
     }
 
-    public async Task TrainKNN(List<string> trainDataset, string savePath = "")
-    {
-        // Sınıfların her sütununun ortalamasını alıp her sınıf için tek değer olacak şekilde veri hazırlanabilir.
-        string className = trainDataset[1].Split(",").Last();
-        string classData = "";
-        string oldClassName = className;
-        bool loop = true;
-        int columnIndex = 0;
-        int lastIndex = 1;
-        while (loop)
-        {
-            List<double> values = new List<double>();
-            for (int i = lastIndex; i < trainDataset.Count(); i++)
-            {
-                List<string> columns = trainDataset[i].Split(",").ToList();
-
-                if (className.Equals(columns.Last()) && columnIndex < columns.Count() - 1)
-                {
-                    values.Add(double.Parse(columns[columnIndex].Replace(".", ",")));
-                    if (i + 1 >= trainDataset.Count() - 1 && columnIndex >= columns.Count() - 1)
-                    {
-                        loop = false;
-                        break;
-                    }
-                }
-                if (columnIndex >= columns.Count() - 2 && i == trainDataset.Count() - 1)
-                {
-                    columnIndex = -1;
-                    loop = false;
-                    break;
-                }
-                if (columnIndex >= columns.Count() - 2 && !trainDataset[i + 1].Split(",").ToList().Last().Equals(className))
-                {
-                    columnIndex = -1;
-                    className = trainDataset[i + 1].Split(",").ToList().Last();
-                    lastIndex = i;
-                    break;
-                }
-            }
-            // calculate mean
-            double mean = Mean(values.ToArray());
-            string meanString = mean.ToString().Replace(",", ".");
-            if (columnIndex != -1)
-            {
-                classData += meanString + ",";
-            }
-            else
-            {
-                classData += meanString + "," + oldClassName;
-                oldClassName = className;
-                trainedData.Add(classData);
-                classData = "";
-            }
-            columnIndex++;
-        }
-
-        if (savePath != "")
-        {
-            await File.WriteAllLinesAsync(savePath, trainedData);
-        }
-    }
-
     public double TestKNN(List<string> trainDataset, List<string> testDataset, int K = 1, bool useWeights = false)
     {
         double sumOfTrueDecisions = 0;
-        double testDataCount = 1000;
+        double testDataCount = testDataset.Count() - 1;
         for (int i = 1; i < testDataCount; i++)
         {
             List<Neighbour> neighbourList = new List<Neighbour>();
@@ -96,7 +34,6 @@ public class KNN
                 double value = Math.Sqrt(sumOfSquares);
                 if (useWeights)
                     value = (double)1 / (double)Math.Pow(value, 2);
-
                 neighbourList.Add(new Neighbour(neighborName, value));
             }
 
@@ -161,7 +98,7 @@ public class KNN
             // System.Console.WriteLine();
         }
         System.Console.WriteLine("True Prediction Count : " + sumOfTrueDecisions);
-        System.Console.WriteLine("Data Count : " + testDataCount);
+        System.Console.WriteLine("Test Data Count : " + testDataCount);
         return (double)sumOfTrueDecisions / (double)testDataCount;
     }
 

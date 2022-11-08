@@ -59,7 +59,7 @@ public class NaiveBayes
         }
 
         System.Console.WriteLine("True Prediction Count = " + sumTrue);
-        System.Console.WriteLine("Data Count = " + (testDataset.Count() - 1));
+        System.Console.WriteLine("Test Data Count = " + (testDataset.Count() - 1));
         // testDataSet.Count() - 1 because first line is contains column names
         double accuracy = (double)sumTrue / (double)(testDataset.Count() - 1);
         return accuracy;
@@ -193,23 +193,6 @@ public class NaiveBayes
                 predictedClass = percentile.Key;
             }
         }
-
-        // System.Console.WriteLine(predictedClass);
-
         return predictedClass.Equals(beanDataColumns[beanDataColumns.Count() - 1]);
-    }
-
-    public void CalculateYesNoSample(double temp)
-    {
-        double yesMean = Mean(new double[] { 27, 16, 5 });
-        double noMean = Mean(new double[] { 25, 30, 8 });
-        double yesStandartDeviation = StandartDeviation(new double[] { 27, 16, 5 });
-        double noStandartDeviation = StandartDeviation(new double[] { 25, 30, 8 });
-
-        double yes = 1 / (yesStandartDeviation * Math.Sqrt(2 * Math.PI)) * Math.Pow(Math.E, -1 / 2 * Math.Pow((temp - yesMean / yesStandartDeviation), 2));
-        double no = 1 / (noStandartDeviation * Math.Sqrt(2 * Math.PI)) * Math.Pow(Math.E, -1 / 2 * Math.Pow((temp - noMean / noStandartDeviation), 2));
-
-        System.Console.WriteLine(yes / (yes + no));
-        System.Console.WriteLine(no / (yes + no));
     }
 }
