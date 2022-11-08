@@ -20,7 +20,7 @@ public class KNN
             List<string> testColumns = testDataset[i].Split(",").ToList();
             Dictionary<string, double> neighbourFreq = new Dictionary<string, double>();
             string neighborName = "";
-            for (int j = 1; j < trainDataset.Count() - 1; j++)
+            for (int j = 1; j < trainDataset.Count() - 1; j++)  
             {
                 List<string> trainColumns = trainDataset[j].Split(",").ToList();
                 neighborName = trainColumns[trainColumns.Count() - 1];
