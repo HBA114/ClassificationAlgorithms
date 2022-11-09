@@ -3,33 +3,38 @@ using ConsoleApp.Exceptions;
 namespace ConsoleApp.Data;
 public class DataProcessing
 {
-    private string _dataFilePath;
+    private string? _dataFilePath;
+
+    public DataProcessing() { }
 
     public DataProcessing(string dataFilePath)
     {
         _dataFilePath = dataFilePath;
     }
 
-    public async Task<Tuple<List<string>, List<string>>> SeperateTrainAndTest(float trainDataPercentile=0.7f, string trainDataFilePath = "", string testDataFilePath = "")
+    public async Task<Tuple<List<string>, List<string>>> ReadTrainAndTestData(string trainDataFilePath, string testDataFilePath)
     {
+        List<string> trainData = await ReadData(trainDataFilePath);
+        List<string> testData = await ReadData(testDataFilePath);
 
+        return new(trainData, testData);
+    }
+
+    public async Task<Tuple<List<string>, List<string>>> SeperateTrainAndTest(float trainDataPercentile = 0.7f, string trainDataFilePath = "", string testDataFilePath = "")
+    {
+        // TODO: Test Random!
         if (trainDataPercentile <= 0 || trainDataPercentile >= 1)
             throw new DataProcessingException("Train Data Percentile should be between 0 and 1. Example : 0.7");
 
         List<string> trainData = new List<string>();
         List<string> testData = new List<string>();
 
-        List<string> data = await ReadData();
-        // List<string> classes = SeperateClasses(data);
+        List<string> data = await ReadData(_dataFilePath!);
 
-        // System.Console.WriteLine("TrainPercentile = " + trainDataPercentile.ToString());
         // TODO: Her bir sınıf için test ve eğitim verisinde çeşitliliğin sağlanması gerekir.
 
         int trainDataCounter = Int32.Parse((trainDataPercentile * 10).ToString());
         int testDataCounter = 10 - trainDataCounter;
-
-        // System.Console.WriteLine("TrainDataCounter : " + trainDataCounter);
-        // System.Console.WriteLine("TestDataCounter : " + testDataCounter);
 
         // Add Column Headers each data
         trainData.Add(data[0]);
@@ -69,24 +74,10 @@ public class DataProcessing
         return new(trainData, testData);
     }
 
-    public async Task<List<string>> ReadData()
+    private async Task<List<string>> ReadData(string filePath)
     {
-        string[] data = await File.ReadAllLinesAsync(_dataFilePath);
+        string[] data = await File.ReadAllLinesAsync(filePath);
         List<string> rows = data.ToList();
         return rows;
     }
-
-    // public List<string> SeperateClasses(List<string> data)
-    // {
-    //     List<string> classes = new List<string>();
-
-    //     for (int i = 1; i < data.Count(); i++)
-    //     {
-    //         List<string> columns = data[i].Split(",").ToList();
-    //         if (!classes.Contains(columns[columns.Count() - 1]))
-    //             classes.Add(columns[columns.Count() - 1]);
-    //     }
-
-    //     return classes;
-    // }
 }

@@ -1,8 +1,7 @@
 namespace ConsoleApp.NaiveBayes;
 public class NaiveBayes
 {
-    private bool _saveModel;
-    private string? _modelPath;
+    private string _modelPath = "";
     private int classCount = -1;
     private List<string> modelData;
 

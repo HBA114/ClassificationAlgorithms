@@ -25,30 +25,27 @@ string testDataPath = Path.Combine(Environment.CurrentDirectory, pathVariable, t
 string naiveBayesModelPath = Path.Combine(Environment.CurrentDirectory, pathVariable, naiveBayesModelSavePath);
 
 
-DataProcessing dataProcessing = new DataProcessing(filePath);
+DataProcessing dataProcessing = new DataProcessing();
 
-// if you do not want to save train and test data:
-// Use SeperateTrainAndTest method with only 1 argument trainDataPercentile
+//! Warning: If you do not have train and test data files as csv comment next line which,
+//! includes ReadTrainAndTestData function then uncomment the line includes SeperateTrainAndTest function
+//! if you have train and data files:
+Tuple<List<string>, List<string>> seperatedData = await dataProcessing.ReadTrainAndTestData(trainDataFilePath: trainDataPath, testDataFilePath: testDataPath);
 
-Tuple<List<string>, List<string>> seperatedData = await dataProcessing.SeperateTrainAndTest(0.7f, trainDataPath, testDataPath);
+//! if you do not want to save train and test data:
+//! Use SeperateTrainAndTest method with only 1 argument trainDataPercentile
+//! Warning: If you do not have train and test data files as csv uncomment next line
+// Tuple<List<string>, List<string>> seperatedData = await dataProcessing.SeperateTrainAndTest(0.7f, trainDataPath, testDataPath);
 List<string> trainData = seperatedData.Item1;
 List<string> testData = seperatedData.Item2;
 
-// System.Console.WriteLine("Train Data Count : " + trainData.Count());
-// System.Console.WriteLine("Test Data Count : " + testData.Count());
-
-// TODO: Create NaiveBayes and KNN Algorithms And Test Them
-
-// if you want to save the NaiveBayes model give true as Constructor Parameter as "saveModel: true"
-// if you already saved a model give saved model's path as path
-
 NaiveBayes naiveBayes = new NaiveBayes();
 
-// var allData = await File.ReadAllLinesAsync(filePath);
-// List<string> allDataList = allData.ToList();
-
 //! if you save the model file you can read model with:
+//! if you do not have any model saved: comment next line and run train:
 await naiveBayes.ReadModel(naiveBayesModelPath);
+
+//! in case you have not saved Naive Bayes model then you should train algorithm with function below (uncomment next line for train)
 // await naiveBayes.TrainNaiveBayesModelAsync(trainDataset: trainData, saveModel: true, modelPath: naiveBayesModelPath);
 
 double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataset: testData);
