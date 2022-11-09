@@ -51,7 +51,8 @@ System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestRe
 
 KNN knn = new KNN();
 
-System.Console.WriteLine("KNN Calculation Could Take 8 Minutes or More Depending to the Device.");
+System.Console.WriteLine("KNN Calculation Could Take 5 Minutes(.net7.0) or More (9 Minutes with .net6.0) Depending to the Device.");
+System.Console.WriteLine("Takes 5 Minutes(.net7.0), (9 Minutes with .net6.0)");
 System.Console.WriteLine("KNN Accuracy Calculating ...");
 
 double knnTestResult = knn.TestKNN(trainDataset: trainData, testDataset: testData, K: 5, useWeights: false);

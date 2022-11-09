@@ -10,10 +10,10 @@ public class DataProcessing
         _dataFilePath = dataFilePath;
     }
 
-    public async Task<Tuple<List<string>, List<string>>> SeperateTrainAndTest(float trainDataPercentile, string trainDataFilePath = "", string testDataFilePath = "")
+    public async Task<Tuple<List<string>, List<string>>> SeperateTrainAndTest(float trainDataPercentile=0.7f, string trainDataFilePath = "", string testDataFilePath = "")
     {
 
-        if (trainDataPercentile < 0 || trainDataPercentile >= 1)
+        if (trainDataPercentile <= 0 || trainDataPercentile >= 1)
             throw new DataProcessingException("Train Data Percentile should be between 0 and 1. Example : 0.7");
 
         List<string> trainData = new List<string>();
