@@ -2,17 +2,30 @@ namespace ConsoleApp.NaiveBayes;
 public class NaiveBayes
 {
     private bool _saveModel;
-    private string _modelPath;
+    private string? _modelPath;
     private int classCount = -1;
     private List<string> modelData;
-    public NaiveBayes(bool saveModel = false, string modelPath = "")
+
+    public NaiveBayes() => modelData = new List<string>();
+
+    // ! Finish This
+    public async Task ReadModel(string modelPath)
     {
-        _saveModel = saveModel;
-        _modelPath = modelPath;
-        modelData = new List<string>();
+        string[] modelDataRaw = await File.ReadAllLinesAsync(modelPath);
+        this.modelData = modelDataRaw.ToList();
+        this.classCount = 1;
+        string className = modelData[0].Split(",")[0];
+        for (int i = 0; i < modelData.Count(); i++)
+        {
+            if (modelData[i].Split(",")[0] != className)
+            {
+                className = modelData[i].Split(",")[0];
+                this.classCount++;
+            }
+        }
     }
 
-    public async Task TrainNaiveBayesModelAsync(List<string> trainDataset)
+    public async Task TrainNaiveBayesModelAsync(List<string> trainDataset, bool saveModel = false, string modelPath = "")
     {
         // her sınıf için ortalama ve standart sapma değerleri hesaplanır.
         // bir dosyaya burada karşılaşılan ger sınıf için gerekli veriler kaydedilir ve model kaydedilmiş olur.
@@ -26,7 +39,6 @@ public class NaiveBayes
             {
                 classCount++;
                 //! class changed make calculations and assign them to variable
-                //! Barbunya gelince NullReference Döndürüyor!!
                 await CalculateAndWriteFromValuesAsync(values, className);
 
                 // clearing list and updating className variable
@@ -85,13 +97,13 @@ public class NaiveBayes
             modelData.Add(classData);
         }
 
-        if (_modelPath != "")
+        if (_modelPath != "" || _modelPath != null)
         {
-            await File.WriteAllLinesAsync(_modelPath, modelData);
+            await File.WriteAllLinesAsync(_modelPath!, modelData);
         }
     }
 
-    public double Mean(double[] values)
+    private double Mean(double[] values)
     {
         double mean = 0;
         int i = 0;
@@ -106,7 +118,7 @@ public class NaiveBayes
         return mean;
     }
 
-    public double StandartDeviation(double[] values)
+    private double StandartDeviation(double[] values)
     {
         double sum = 0;
         double mean = Mean(values);
@@ -136,7 +148,6 @@ public class NaiveBayes
                 double mean = double.Parse(data[1].Replace(".", ","));
                 double standartDeviation = double.Parse(data[2].Replace(".", ","));
 
-                //! Value her seferinde aynı çıkıyor
                 double beanVal = double.Parse(beanDataColumns[i].Replace(".", ","));
 
                 double firstArea = standartDeviation * Math.Sqrt(2 * Math.PI);

@@ -20,7 +20,7 @@ public class DataProcessing
         List<string> testData = new List<string>();
 
         List<string> data = await ReadData();
-        List<string> classes = SeperateClasses(data);
+        // List<string> classes = SeperateClasses(data);
 
         // System.Console.WriteLine("TrainPercentile = " + trainDataPercentile.ToString());
         // TODO: Her bir sınıf için test ve eğitim verisinde çeşitliliğin sağlanması gerekir.
@@ -76,17 +76,17 @@ public class DataProcessing
         return rows;
     }
 
-    public List<string> SeperateClasses(List<string> data)
-    {
-        List<string> classes = new List<string>();
+    // public List<string> SeperateClasses(List<string> data)
+    // {
+    //     List<string> classes = new List<string>();
 
-        for (int i = 1; i < data.Count(); i++)
-        {
-            List<string> columns = data[i].Split(",").ToList();
-            if (!classes.Contains(columns[columns.Count() - 1]))
-                classes.Add(columns[columns.Count() - 1]);
-        }
+    //     for (int i = 1; i < data.Count(); i++)
+    //     {
+    //         List<string> columns = data[i].Split(",").ToList();
+    //         if (!classes.Contains(columns[columns.Count() - 1]))
+    //             classes.Add(columns[columns.Count() - 1]);
+    //     }
 
-        return classes;
-    }
+    //     return classes;
+    // }
 }

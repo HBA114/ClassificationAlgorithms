@@ -10,14 +10,18 @@ string naiveBayesModelSavePath = "Data/Models/NaiveBayesModel.csv";
 
 //! Paths are changing on debuging and running from console
 System.Console.WriteLine(Environment.CurrentDirectory);
+
 string pathVariable = "";
+
 if (!Environment.CurrentDirectory.Contains("ConsoleApp"))
 {
     pathVariable = "ConsoleApp";
 }
+
 string filePath = Path.Combine(Environment.CurrentDirectory, pathVariable, datasetCSVFilePath);
 string trainDataPath = Path.Combine(Environment.CurrentDirectory, pathVariable, trainDataSavePath);
 string testDataPath = Path.Combine(Environment.CurrentDirectory, pathVariable, testDataSavePath);
+
 string naiveBayesModelPath = Path.Combine(Environment.CurrentDirectory, pathVariable, naiveBayesModelSavePath);
 
 
@@ -38,12 +42,14 @@ List<string> testData = seperatedData.Item2;
 // if you want to save the NaiveBayes model give true as Constructor Parameter as "saveModel: true"
 // if you already saved a model give saved model's path as path
 
-NaiveBayes naiveBayes = new NaiveBayes(saveModel: true, modelPath: naiveBayesModelPath);
+NaiveBayes naiveBayes = new NaiveBayes();
 
 // var allData = await File.ReadAllLinesAsync(filePath);
 // List<string> allDataList = allData.ToList();
 
-await naiveBayes.TrainNaiveBayesModelAsync(trainDataset: trainData);
+//! if you save the model file you can read model with:
+await naiveBayes.ReadModel(naiveBayesModelPath);
+// await naiveBayes.TrainNaiveBayesModelAsync(trainDataset: trainData, saveModel: true, modelPath: naiveBayesModelPath);
 
 double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataset: testData);
 System.Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2));
