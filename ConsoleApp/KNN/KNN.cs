@@ -1,3 +1,5 @@
+using ConsoleApp.Entities;
+
 namespace ConsoleApp.KNN;
 
 public class KNN
@@ -20,7 +22,7 @@ public class KNN
             List<string> testColumns = testDataset[i].Split(",").ToList();
             Dictionary<string, double> neighbourFreq = new Dictionary<string, double>();
             string neighborName = "";
-            for (int j = 1; j < trainDataset.Count() - 1; j++)  
+            for (int j = 1; j < trainDataset.Count() - 1; j++)
             {
                 List<string> trainColumns = trainDataset[j].Split(",").ToList();
                 neighborName = trainColumns[trainColumns.Count() - 1];
@@ -64,33 +66,10 @@ public class KNN
             }
 
             // Karar Verildi
-            // for (int j = 0; j < K; j++)
-            // {
-            //     if (useWeights)
-            //     {
-            //         if (neighbourFreq.ContainsKey(neighbourList[j].Name))
-            //         {
-            //             neighbourFreq[neighbourList[j].Name] += neighbourList[j].Value;
-            //         }
-            //         else
-            //         {
-            //             neighbourFreq.Add(neighbourList[j].Name, neighbourList[j].Value);
-            //         }
-            //     }
-            //     else
-            //     {
-            //         if (neighbourFreq.ContainsKey(neighbourList[j].Name))
-            //         {
-            //             neighbourFreq[neighbourList[j].Name] += 1;
-            //         }
-            //         else
-            //         {
-            //             neighbourFreq.Add(neighbourList[j].Name, 1);
-            //         }
-            //     }
-            // }
+
             neighbourFreq = neighbourFreq.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             string decision = neighbourFreq.First().Key;
+            
             if (decision.Equals(testColumns[testColumns.Count() - 1]))
             {
                 sumOfTrueDecisions++;
@@ -188,16 +167,5 @@ public class KNN
         }
 
         return mean;
-    }
-}
-
-public class Neighbour
-{
-    public string Name;
-    public double Value;
-    public Neighbour(string Name, double Value)
-    {
-        this.Name = Name;
-        this.Value = Value;
     }
 }

@@ -26,6 +26,7 @@ public class NaiveBayes
 
     public async Task TrainNaiveBayesModelAsync(List<string> trainDataset, bool saveModel = false, string modelPath = "")
     {
+        _modelPath = modelPath;
         // her sınıf için ortalama ve standart sapma değerleri hesaplanır.
         // bir dosyaya burada karşılaşılan ger sınıf için gerekli veriler kaydedilir ve model kaydedilmiş olur.
         // modeli kaydetmek istenilmemesi durumunda String değişken içerisinde dosyada saklanacağı gibi saklanır.
@@ -192,17 +193,9 @@ public class NaiveBayes
             }
         }
 
-        // System.Console.WriteLine(finalPercentile);
-        double max = 0;
-        string predictedClass = "";
-        foreach (var percentile in finalPercentile)
-        {
-            if (percentile.Value > max)
-            {
-                max = percentile.Value;
-                predictedClass = percentile.Key;
-            }
-        }
+        finalPercentile = finalPercentile.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+        string predictedClass = finalPercentile.First().Key;
         return predictedClass.Equals(beanDataColumns[beanDataColumns.Count() - 1]);
     }
 }
