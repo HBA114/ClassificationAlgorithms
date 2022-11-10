@@ -8,7 +8,7 @@
 
 ### Proje Gereksinimleri
 
-- Proje .net7 teknolojisini kullanmaktadır. Dolayısıyla .net6 SDK ve .net6 Runtime kurulu olmalıdır. Harici kütüphane kullanılmadan verilerin kolaylıkla okunması için veriler csv formatına dönüştürüldü.
+- Proje .net7 teknolojisini kullanmaktadır. Dolayısıyla .net7 SDK ve .net7 Runtime kurulu olmalıdır. Harici kütüphane kullanılmadan verilerin kolaylıkla okunması için veriler csv formatına dönüştürüldü.
 
 ### Nasıl Çalıştırılır
 
