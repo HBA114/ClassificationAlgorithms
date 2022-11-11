@@ -11,18 +11,24 @@ string naiveBayesModelSavePath = "Data/Models/NaiveBayesModel.csv";
 //! Paths are changing on debuging and running from console
 Console.WriteLine(Environment.CurrentDirectory);
 
+string projectDirectory = Environment.CurrentDirectory;
 string pathVariable = "";
 
-if (!Environment.CurrentDirectory.Contains("ConsoleApp"))
+if (projectDirectory.Contains("bin"))
+{
+    projectDirectory = projectDirectory.Split("bin")[0];
+}
+
+if (!projectDirectory.Contains("ConsoleApp"))
 {
     pathVariable = "ConsoleApp";
 }
 
-string filePath = Path.Combine(Environment.CurrentDirectory, pathVariable, datasetCSVFilePath);
-string trainDataPath = Path.Combine(Environment.CurrentDirectory, pathVariable, trainDataSavePath);
-string testDataPath = Path.Combine(Environment.CurrentDirectory, pathVariable, testDataSavePath);
+string filePath = Path.Combine(projectDirectory, pathVariable, datasetCSVFilePath);
+string trainDataPath = Path.Combine(projectDirectory, pathVariable, trainDataSavePath);
+string testDataPath = Path.Combine(projectDirectory, pathVariable, testDataSavePath);
 
-string naiveBayesModelPath = Path.Combine(Environment.CurrentDirectory, pathVariable, naiveBayesModelSavePath);
+string naiveBayesModelPath = Path.Combine(projectDirectory, pathVariable, naiveBayesModelSavePath);
 
 
 DataProcessing dataProcessing = new DataProcessing();
@@ -63,3 +69,6 @@ double knnTestResult = knn.TestKNN(trainDataset: trainData, testDataset: testDat
 
 Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2));
 Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2) * 100 + "%");
+
+Console.WriteLine("Press Enter For Exit...");
+Console.ReadLine();
