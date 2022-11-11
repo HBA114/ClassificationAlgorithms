@@ -10,7 +10,7 @@ string testDataSavePath = "Data/dry_bean_dataset_test.csv";
 string naiveBayesModelSavePath = "Data/Models/NaiveBayesModel.csv";
 
 //! Paths are changing on debuging and running from console
-Console.WriteLine(Environment.CurrentDirectory);
+// Console.WriteLine(Environment.CurrentDirectory);
 
 string projectDirectory = Environment.CurrentDirectory;
 string pathVariable = "";
@@ -76,7 +76,7 @@ Console.WriteLine("Naive Bayes Test Timer : " + secondsNaiveBayes + " Seconds an
 KNN knn = new KNN();
 
 Console.WriteLine("KNN Calculation Could Take 5 Minutes(.net7.0) or More (9 Minutes with .net6.0) Depending to the Device.");
-Console.WriteLine("Takes 5 Minutes .net7.0, 9 Minutes with .net6.0 (If you are running on laptop be sure your device plugged in to outlet.)");
+Console.WriteLine("Takes 7 Minutes .net7.0, 10 Minutes with .net6.0 (If you are running on laptop be sure your device plugged in to outlet.)");
 Console.WriteLine("KNN Accuracy Calculating ...");
 
 timer.Reset();

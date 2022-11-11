@@ -70,8 +70,8 @@ public class NaiveBayes
                 sumTrue++;
         }
 
-        System.Console.WriteLine("True Prediction Count = " + sumTrue);
-        System.Console.WriteLine("Test Data Count = " + (testDataset.Count() - 1));
+        System.Console.WriteLine("Naive Bayes True Prediction Count = " + sumTrue);
+        System.Console.WriteLine("Naive Bayes Test Data Count = " + (testDataset.Count() - 1));
         // testDataSet.Count() - 1 because first line is contains column names
         double accuracy = (double)sumTrue / (double)(testDataset.Count() - 1);
         return accuracy;

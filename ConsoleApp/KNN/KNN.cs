@@ -22,7 +22,17 @@ public class KNN
 
         Console.CursorVisible = false;
         var pos = Console.GetCursorPosition();
-        Console.SetCursorPosition(Console.GetCursorPosition().Left + 1, Console.GetCursorPosition().Top + 1);
+
+        try
+        {
+            Console.SetCursorPosition(Console.GetCursorPosition().Left + 1, Console.GetCursorPosition().Top + 1);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            System.Console.WriteLine();
+            Console.SetCursorPosition(Console.GetCursorPosition().Left + 1, Console.GetCursorPosition().Top - 1);
+        }
+
         Console.ForegroundColor = ConsoleColor.Green;
 
         for (int i = 1; i < testDataCount; i++)
@@ -107,14 +117,24 @@ public class KNN
             {
                 Console.Write("] " + (i * 100) / (testDataCount - 1) + " / 100");
             }
-            Console.SetCursorPosition(pos.Left, pos.Top);
+
+            try
+            {
+                Console.SetCursorPosition(pos.Left, pos.Top);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                System.Console.WriteLine();
+                // pos = Console.GetCursorPosition();
+                Console.SetCursorPosition(pos.Left, pos.Top - 1);
+            }
         }
 
         Console.ForegroundColor = ConsoleColor.White;
         Console.CursorVisible = true;
 
-        System.Console.WriteLine("\nTrue Prediction Count : " + sumOfTrueDecisions);
-        System.Console.WriteLine("Test Data Count : " + testDataCount);
+        System.Console.WriteLine("\nKNN True Prediction Count : " + sumOfTrueDecisions);
+        System.Console.WriteLine("KNN Test Data Count : " + testDataCount);
 
         return (double)sumOfTrueDecisions / (double)testDataCount;
     }
