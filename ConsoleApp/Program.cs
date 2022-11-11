@@ -1,4 +1,5 @@
-﻿using ConsoleApp.Data;
+﻿using System.Diagnostics;
+using ConsoleApp.Data;
 using ConsoleApp.KNN;
 using ConsoleApp.NaiveBayes;
 
@@ -48,6 +49,8 @@ List<string> testData = seperatedData.Item2;
 
 NaiveBayes naiveBayes = new NaiveBayes();
 
+Stopwatch timer = new Stopwatch();
+
 //! if you save the model file you can read model with:
 //! if you do not have any model saved: comment next line and run train:
 // await naiveBayes.ReadModel(naiveBayesModelPath);
@@ -55,9 +58,20 @@ NaiveBayes naiveBayes = new NaiveBayes();
 //! in case you have not saved Naive Bayes model then you should train algorithm with function below (uncomment next line for train)
 await naiveBayes.TrainNaiveBayesModelAsync(trainDataset: trainData, saveModel: true, modelPath: naiveBayesModelPath);
 
+timer.Start();
 double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataset: testData);
+timer.Stop();
+
+TimeSpan timerElapsedNaiveBayes = timer.Elapsed;
+
 Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2));
 Console.WriteLine("Naive Bayes Accuracy : " + Math.Round(naiveBayesTestResult, 2) * 100 + "%\n");
+
+int minutesNaiveBayes = Convert.ToInt32(timerElapsedNaiveBayes.TotalMinutes);
+int secondsNaiveBayes = Convert.ToInt32(timerElapsedNaiveBayes.TotalSeconds) % 60;
+int milliSecondsNaiveBayes = Convert.ToInt32(timerElapsedNaiveBayes.TotalMilliseconds) % 1000;
+
+Console.WriteLine("Naive Bayes Test Timer : " + secondsNaiveBayes + " Seconds and " + milliSecondsNaiveBayes + " Milliseconds\n");
 
 KNN knn = new KNN();
 
@@ -65,10 +79,21 @@ Console.WriteLine("KNN Calculation Could Take 5 Minutes(.net7.0) or More (9 Minu
 Console.WriteLine("Takes 5 Minutes .net7.0, 9 Minutes with .net6.0 (If you are running on laptop be sure your device plugged in to outlet.)");
 Console.WriteLine("KNN Accuracy Calculating ...");
 
+timer.Reset();
+timer.Start();
 double knnTestResult = knn.TestKNN(trainDataset: trainData, testDataset: testData, K: 5, useWeights: false);
+timer.Stop();
+
+TimeSpan timerElapsedKNN = timer.Elapsed;
 
 Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2));
 Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2) * 100 + "%");
 
-Console.WriteLine("Press Enter For Exit...");
+int minutesKNN = Convert.ToInt32(timerElapsedKNN.TotalMinutes);
+int totalSecondsKNN = Convert.ToInt32(timerElapsedKNN.TotalSeconds);
+int secondsKNN = totalSecondsKNN % 60;
+
+Console.WriteLine("KNN Test Timer : " + minutesKNN + " Minutes and " + secondsKNN + " Seconds");
+
+Console.Write("\nPress Enter For Exit...");
 Console.ReadLine();
