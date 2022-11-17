@@ -56,7 +56,7 @@ Stopwatch timer = new Stopwatch();
 // await naiveBayes.ReadModel(naiveBayesModelPath);
 
 //! in case you have not saved Naive Bayes model then you should train algorithm with function below (uncomment next line for train)
-await naiveBayes.TrainNaiveBayesModelAsync(trainDataset: trainData, saveModel: true, modelPath: naiveBayesModelPath);
+await naiveBayes.TrainNaiveBayesModel(trainDataset: trainData, saveModel: true, modelPath: naiveBayesModelPath);
 
 timer.Start();
 double naiveBayesTestResult = naiveBayes.TestNaiveBayesModel(testDataset: testData);
