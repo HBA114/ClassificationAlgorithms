@@ -24,7 +24,7 @@ public class NaiveBayes
         }
     }
 
-    public async Task TrainNaiveBayesModelAsync(List<string> trainDataset, bool saveModel = false, string modelPath = "")
+    public async Task TrainNaiveBayesModel(List<string> trainDataset, bool saveModel = false, string modelPath = "")
     {
         _modelPath = modelPath;
         // her sınıf için ortalama ve standart sapma değerleri hesaplanır.
@@ -66,7 +66,7 @@ public class NaiveBayes
         int sumTrue = 0;
         for (int i = 1; i < testDataset.Count(); i++)
         {
-            if (CalculateBeanClass(testDataset[i]))
+            if (PredictBeanClass(testDataset[i]))
                 sumTrue++;
         }
 
@@ -111,7 +111,6 @@ public class NaiveBayes
         while (i < values.Count())
         {
             mean += values[i] / (double)values.Count();
-            // if (i > 0)
             i++;
         }
 
@@ -133,22 +132,33 @@ public class NaiveBayes
         return Math.Sqrt(sum);
     }
 
-    private bool CalculateBeanClass(string beanData)
+    private bool PredictBeanClass(string beanData)
     {
         int dataCountForClass = modelData.Count() / classCount;
         List<string> beanDataColumns = beanData.Split(",").ToList();
         List<Dictionary<string, double>> possibilities = new List<Dictionary<string, double>>();
         for (int i = 0; i < dataCountForClass; i++)
         {
-            //! Her Sınıf için aynı veri ve olasılık çıkıyor!
             Dictionary<string, double> pos = new Dictionary<string, double>();
             for (int j = i; j < modelData.Count(); j += dataCountForClass)
             {
                 List<string> data = modelData[j].Split(",").ToList();
+
+                //! Works on Windows
+                #region Windows
                 double mean = double.Parse(data[1].Replace(".", ","));
                 double standartDeviation = double.Parse(data[2].Replace(".", ","));
 
                 double beanVal = double.Parse(beanDataColumns[i].Replace(".", ","));
+                #endregion
+
+                //! Works on Linux
+                #region Linux
+                // double mean = double.Parse(data[1]);
+                // double standartDeviation = double.Parse(data[2]);
+                
+                // double beanVal = double.Parse(beanDataColumns[i]);
+                #endregion
 
                 double firstArea = standartDeviation * Math.Sqrt(2 * Math.PI);
                 double secondArea = -Math.Pow((beanVal - mean) / standartDeviation, 2) / 2;

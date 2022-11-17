@@ -4,12 +4,10 @@ namespace ConsoleApp.KNN;
 
 public class KNN
 {
-    List<string> trainedData;
     List<string> trainDataMean;
     public KNN()
     {
         trainDataMean = new List<string>();
-        trainedData = new List<string>();
     }
 
     public double TestKNN(List<string> trainDataset, List<string> testDataset, int K = 1, bool useWeights = false)
