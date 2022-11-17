@@ -1,3 +1,6 @@
+using System.Runtime.InteropServices;
+using ConsoleApp.Helpers;
+
 namespace ConsoleApp.NaiveBayes;
 public class NaiveBayes
 {
@@ -48,7 +51,7 @@ public class NaiveBayes
             List<double> columnValues = new List<double>();
             for (int j = 0; j < columns.Count() - 1; j++)
             {
-                columnValues.Add(double.Parse(columns[j].Replace(".", ",")));
+                columnValues.Add(Calculations.ParseToDouble(columns[j]));
             }
             values.Add(columnValues);
         }
@@ -89,9 +92,13 @@ public class NaiveBayes
             {
                 data.Add(values[j][i]);
             }
+
+            #region Test in Linux
+            //! class data should be like "BARBUNYA,69846.580543933,10174.440752337463"
             string mean = Mean(data.ToArray()).ToString().Replace(",", ".");
             string standartDeviation = StandartDeviation(data.ToArray()).ToString().Replace(",", ".");
-
+            #endregion
+            
             string classData = "";
             classData += className + "," + mean + "," + standartDeviation;
             modelData.Add(classData);
@@ -144,21 +151,13 @@ public class NaiveBayes
             {
                 List<string> data = modelData[j].Split(",").ToList();
 
-                //! Works on Windows
-                #region Windows
-                double mean = double.Parse(data[1].Replace(".", ","));
-                double standartDeviation = double.Parse(data[2].Replace(".", ","));
+                double mean, standartDeviation, beanVal;
 
-                double beanVal = double.Parse(beanDataColumns[i].Replace(".", ","));
-                #endregion
+                mean = Calculations.ParseToDouble(data[1]);
+                standartDeviation = Calculations.ParseToDouble(data[2]);
 
-                //! Works on Linux
-                #region Linux
-                // double mean = double.Parse(data[1]);
-                // double standartDeviation = double.Parse(data[2]);
-                
-                // double beanVal = double.Parse(beanDataColumns[i]);
-                #endregion
+                beanVal = Calculations.ParseToDouble(beanDataColumns[i]);
+
 
                 double firstArea = standartDeviation * Math.Sqrt(2 * Math.PI);
                 double secondArea = -Math.Pow((beanVal - mean) / standartDeviation, 2) / 2;

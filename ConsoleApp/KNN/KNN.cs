@@ -1,4 +1,5 @@
 using ConsoleApp.Entities;
+using ConsoleApp.Helpers;
 
 namespace ConsoleApp.KNN;
 
@@ -46,8 +47,8 @@ public class KNN
                 double sumOfSquares = 0;
                 for (int k = 0; k < testColumns.Count() - 1; k++)
                 {
-                    double testValue = Double.Parse(testColumns[k].Replace(".", ","));
-                    double trainValue = Double.Parse(trainColumns[k].Replace(".", ","));
+                    double testValue = Calculations.ParseToDouble(testColumns[k]);
+                    double trainValue = Calculations.ParseToDouble(trainColumns[k]);
                     sumOfSquares += Math.Pow((trainValue - testValue), 2);
                 }
                 double value = Math.Sqrt(sumOfSquares);
