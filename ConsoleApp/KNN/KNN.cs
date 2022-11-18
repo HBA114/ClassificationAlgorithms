@@ -5,15 +5,13 @@ namespace ConsoleApp.KNN;
 
 public class KNN
 {
-    List<string> trainDataMean;
     public KNN()
     {
-        trainDataMean = new List<string>();
     }
 
     public double TestKNN(List<string> trainDataset, List<string> testDataset, int K = 1, bool useWeights = false)
     {
-        double sumOfTrueDecisions = 0;
+        int sumOfTrueDecisions = 0;
         int testDataCount = testDataset.Count() - 1;
 
         int maxBarCount = 10;
@@ -31,7 +29,6 @@ public class KNN
             System.Console.WriteLine();
             Console.SetCursorPosition(Console.GetCursorPosition().Left + 1, Console.GetCursorPosition().Top - 1);
         }
-
         Console.ForegroundColor = ConsoleColor.Green;
 
         for (int i = 1; i < testDataCount; i++)
@@ -136,19 +133,5 @@ public class KNN
         System.Console.WriteLine("KNN Test Data Count : " + testDataCount);
 
         return (double)sumOfTrueDecisions / (double)testDataCount;
-    }
-
-    private double Mean(double[] values)
-    {
-        double mean = 0;
-        int i = 0;
-
-        while (i < values.Count())
-        {
-            mean += values[i] / (double)values.Count();
-            i++;
-        }
-
-        return mean;
     }
 }

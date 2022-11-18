@@ -75,8 +75,8 @@ Console.WriteLine("Naive Bayes Test Timer : " + secondsNaiveBayes + " Seconds an
 
 KNN knn = new KNN();
 
-Console.WriteLine("KNN Calculation Could Take 5 Minutes(.net7.0) or More (9 Minutes with .net6.0) Depending to the Device.");
-Console.WriteLine("Takes 7 Minutes .net7.0, 10 Minutes with .net6.0 (If you are running on laptop be sure your device plugged in to outlet.)");
+Console.WriteLine("KNN Calculation Could Take 5 Minutes or More Depending to the Device.");
+Console.WriteLine("Note : Takes 7 Minutes .net7.0, 10 Minutes with .net6.0 (If you are running project on a laptop be sure your device plugged in to outlet.)");
 Console.WriteLine("KNN Accuracy Calculating ...");
 
 timer.Reset();

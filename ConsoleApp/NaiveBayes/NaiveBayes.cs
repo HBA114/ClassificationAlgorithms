@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using ConsoleApp.Helpers;
 
 namespace ConsoleApp.NaiveBayes;
@@ -95,8 +94,8 @@ public class NaiveBayes
 
             #region Test in Linux
             //! class data should be like "BARBUNYA,69846.580543933,10174.440752337463"
-            string mean = Mean(data.ToArray()).ToString().Replace(",", ".");
-            string standartDeviation = StandartDeviation(data.ToArray()).ToString().Replace(",", ".");
+            string mean = Calculations.Mean(data.ToArray()).ToString().Replace(",", ".");
+            string standartDeviation = Calculations.StandartDeviation(data.ToArray()).ToString().Replace(",", ".");
             #endregion
             
             string classData = "";
@@ -110,34 +109,7 @@ public class NaiveBayes
         }
     }
 
-    private double Mean(double[] values)
-    {
-        double mean = 0;
-        int i = 0;
-
-        while (i < values.Count())
-        {
-            mean += values[i] / (double)values.Count();
-            i++;
-        }
-
-        return mean;
-    }
-
-    private double StandartDeviation(double[] values)
-    {
-        double sum = 0;
-        double mean = Mean(values);
-        int count = values.Count() - 1;
-
-        foreach (double number in values)
-        {
-            sum += Math.Pow((number - mean), 2);
-        }
-        sum /= count;
-
-        return Math.Sqrt(sum);
-    }
+    
 
     private bool PredictBeanClass(string beanData)
     {
