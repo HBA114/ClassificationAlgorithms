@@ -32,7 +32,7 @@ Tuple<List<string>, List<string>>? seperatedData = null;
 List<string>? trainData = null;
 List<string>? testData = null;
 int K = 0;
-bool? useWeights = null;
+bool useWeights = false;
 Stopwatch timer = new Stopwatch();
 StringBuilder sb = new StringBuilder();
 #endregion
@@ -214,7 +214,7 @@ while (!exit)
 
                         timer.Reset();
                         timer.Start();
-                        double knnTestResult = knn.TestKNN(trainDataset: trainData!, testDataset: testData!, K: 5, useWeights: false);
+                        double knnTestResult = knn.TestKNN(trainDataset: trainData!, testDataset: testData!, K: K, useWeights: useWeights);
                         timer.Stop();
 
                         TimeSpan timerElapsedKNN = timer.Elapsed;
