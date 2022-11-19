@@ -124,8 +124,7 @@ while (!exit)
             trainData = seperatedData.Item1;
             testData = seperatedData.Item2;
             #endregion
-            // Console.WriteLine("Press enter to continue...");
-            // Console.ReadLine();
+
             break;
         case 2:
             NaiveBayes naiveBayes = new NaiveBayes();
