@@ -31,7 +31,7 @@ string naiveBayesModelPath = Path.Combine(projectDirectory, pathVariable, naiveB
 Tuple<List<string>, List<string>>? seperatedData = null;
 List<string>? trainData = null;
 List<string>? testData = null;
-int K = 0;
+int K = 5;
 bool useWeights = false;
 Stopwatch timer = new Stopwatch();
 StringBuilder sb = new StringBuilder();
@@ -46,7 +46,6 @@ bool exit = false;
 Console.Clear();
 while (!exit)
 {
-
     #region Base Operation
     int baseOperation = 0;
     // add a switch case for operation choose
