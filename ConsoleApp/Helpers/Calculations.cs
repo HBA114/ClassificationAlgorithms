@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace ConsoleApp.Helpers;
 
@@ -7,14 +7,16 @@ public static class Calculations
     // OS specific double calculation
     public static double ParseToDouble(string value)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return double.Parse(value.Replace(".", ","));
-        }
-        else
-        {
-            return double.Parse(value);
-        }
+        //! Changed CultureInfo
+        return double.Parse(value, CultureInfo.InvariantCulture);
+        // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        // {
+        //     return double.Parse(value.Replace(".", ","));
+        // }
+        // else
+        // {
+        //     return double.Parse(value);
+        // }
     }
 
     public static double Mean(double[] values)
