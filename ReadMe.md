@@ -1,4 +1,5 @@
 # Basic Learning Algorithms Homework 1
+## Naive Bayes and KNN Classifier Algorithms
 
 [![Build Status](https://shields.io/badge/.Net_SDK-7-purple)](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks)
 [![Build Status](https://shields.io/badge/.Net_Runtime-7-purple)](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks)
