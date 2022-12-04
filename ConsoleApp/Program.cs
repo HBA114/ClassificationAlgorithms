@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Text;
+﻿using System.Text;
 using System.Diagnostics;
 using ConsoleApp.Data;
 using ConsoleApp.KNN;
@@ -41,6 +40,36 @@ List<string> baseOperations = new() { "Data Operations", "Naive Bayes Operations
 List<string> dataOperations = new() { "Read Data", "Seperate Data" };
 List<string> naiveBayesOperations = new() { "Run Test With Saved Model", "Train New Model and Run Test" };
 List<string> knnOperations = new() { "Run KNN Test", "Define K (Neighbour Count, default 5)", "Use Weights (default false)", "Main Menu" };
+
+#region Test
+// KNN knn2 = new KNN();
+// DataProcessing dataProcessing2 = new DataProcessing();
+// var result = await dataProcessing2.SeperateTrainAndTest(
+//                         dataFilePath: filePath, trainDataPercentile: 0.7f, trainDataFilePath: trainDataPath, testDataFilePath: testDataPath, random: true);
+
+// Console.WriteLine("KNN Accuracy Calculating Array ...");
+
+
+
+// timer.Reset();
+// timer.Start();
+// double knnTestResultTest = knn2.TestKNNArray(trainDataset: result.Item1!.ToArray(), testDataset: result.Item2!.ToArray(), K: K, useWeights: useWeights);
+// timer.Stop();
+
+// TimeSpan timerElapsedKNNArrayTest = timer.Elapsed;
+
+// Console.WriteLine("KNN Accuracy Array : " + Math.Round(knnTestResultTest, 2));
+// Console.WriteLine("KNN Accuracy Array : " + Math.Round(knnTestResultTest, 2) * 100 + "%");
+
+// int minutesKNNArrayTest = Convert.ToInt32(timerElapsedKNNArrayTest.TotalMinutes);
+// int totalSecondsKNNArrayTest = Convert.ToInt32(timerElapsedKNNArrayTest.TotalSeconds);
+// int secondsKNNArrayTest = totalSecondsKNNArrayTest % 60;
+
+// Console.WriteLine("KNN Test Timer : " + minutesKNNArrayTest + " Minutes and " + secondsKNNArrayTest + " Seconds");
+
+#endregion
+
+
 
 bool exit = false;
 Console.Clear();
@@ -209,23 +238,41 @@ while (!exit)
                         #region KNN Test
                         Console.WriteLine("KNN Calculation Could Take 5 Minutes or More Depending to the Device.");
                         Console.WriteLine("Note : Takes 7 Minutes .net7.0, 10 Minutes with .net6.0 (If you are running project on a laptop be sure your device plugged in to outlet.)");
-                        Console.WriteLine("KNN Accuracy Calculating ...");
+                        Console.WriteLine("KNN Accuracy Calculating List ...");
 
                         timer.Reset();
                         timer.Start();
                         double knnTestResult = knn.TestKNN(trainDataset: trainData!, testDataset: testData!, K: K, useWeights: useWeights);
                         timer.Stop();
 
-                        TimeSpan timerElapsedKNN = timer.Elapsed;
+                        TimeSpan timerElapsedKNNList = timer.Elapsed;
 
-                        Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2));
-                        Console.WriteLine("KNN Accuracy : " + Math.Round(knnTestResult, 2) * 100 + "%");
+                        int minutesKNNList = Convert.ToInt32(timerElapsedKNNList.TotalMinutes);
+                        int totalSecondsKNNList = Convert.ToInt32(timerElapsedKNNList.TotalSeconds);
+                        int secondsKNNList = totalSecondsKNNList % 60;
 
-                        int minutesKNN = Convert.ToInt32(timerElapsedKNN.TotalMinutes);
-                        int totalSecondsKNN = Convert.ToInt32(timerElapsedKNN.TotalSeconds);
-                        int secondsKNN = totalSecondsKNN % 60;
+                        Console.WriteLine("KNN Test Timer : " + minutesKNNList + " Minutes and " + secondsKNNList + " Seconds");
 
-                        Console.WriteLine("KNN Test Timer : " + minutesKNN + " Minutes and " + secondsKNN + " Seconds");
+                        Console.WriteLine("KNN Accuracy List : " + Math.Round(knnTestResult, 2));
+                        Console.WriteLine("KNN Accuracy List : " + Math.Round(knnTestResult, 2) * 100 + "%");
+
+                        // Console.WriteLine("KNN Accuracy Calculating Array ...");
+
+                        // timer.Reset();
+                        // timer.Start();
+                        // double knnTestResult2 = knn.TestKNNArray(trainDataset: trainData!.ToArray(), testDataset: testData!.ToArray(), K: K, useWeights: useWeights);
+                        // timer.Stop();
+
+                        // TimeSpan timerElapsedKNNArray = timer.Elapsed;
+
+                        // Console.WriteLine("KNN Accuracy Array : " + Math.Round(knnTestResult2, 2));
+                        // Console.WriteLine("KNN Accuracy Array : " + Math.Round(knnTestResult2, 2) * 100 + "%");
+
+                        // int minutesKNNArray = Convert.ToInt32(timerElapsedKNNArray.TotalMinutes);
+                        // int totalSecondsKNNArray = Convert.ToInt32(timerElapsedKNNArray.TotalSeconds);
+                        // int secondsKNNArray = totalSecondsKNNArray % 60;
+
+                        // Console.WriteLine("KNN Test Timer : " + minutesKNNArray + " Minutes and " + secondsKNNArray + " Seconds");
                         #endregion
                         break;
                     case 2:
