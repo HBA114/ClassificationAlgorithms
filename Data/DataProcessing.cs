@@ -1,6 +1,7 @@
-using ConsoleApp.Exceptions;
+using Utils.Exceptions;
 
-namespace ConsoleApp.Data;
+namespace Data;
+
 public class DataProcessing
 {
     private bool _random;
@@ -22,7 +23,7 @@ public class DataProcessing
         return new(trainData, testData);
     }
 
-    public async Task<Tuple<List<string>, List<string>>> SeperateTrainAndTest(string dataFilePath, float trainDataPercentile = 0.7f, string trainDataFilePath = "", string testDataFilePath = "", bool random = false)
+    public async Task<Tuple<List<string>, List<string>>> SeparateTrainAndTest(string dataFilePath, float trainDataPercentile = 0.7f, string trainDataFilePath = "", string testDataFilePath = "", bool random = false)
     {
         _dataFilePath = dataFilePath;
         _random = random;

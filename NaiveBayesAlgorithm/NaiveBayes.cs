@@ -1,6 +1,7 @@
-using ConsoleApp.Helpers;
+﻿using Utils;
 
-namespace ConsoleApp.NaiveBayes;
+namespace NaiveBayesAlgorithm;
+
 public class NaiveBayes
 {
     private string _modelPath = "";
@@ -29,9 +30,6 @@ public class NaiveBayes
     public async Task TrainNaiveBayesModel(List<string> trainDataset, bool saveModel = false, string modelPath = "")
     {
         _modelPath = modelPath;
-        // her sınıf için ortalama ve standart sapma değerleri hesaplanır.
-        // bir dosyaya burada karşılaşılan ger sınıf için gerekli veriler kaydedilir ve model kaydedilmiş olur.
-        // modeli kaydetmek istenilmemesi durumunda String değişken içerisinde dosyada saklanacağı gibi saklanır.
         string className = "";
         List<List<double>> values = new List<List<double>>();
         for (int i = 1; i < trainDataset.Count(); i++)
@@ -58,13 +56,6 @@ public class NaiveBayes
 
     public double TestNaiveBayesModel(List<string> testDataset)
     {
-        // her sınıf için hesaplanan veriler kullanılarak test verisinin sınıfı tahmin edilmeli.
-        // her tahmin doğruluğu veya yanlışlığı belirlenerek listelenmeli ve sonuç olarak doğruluk ölçüsü Accuracy gösterilmeli.
-        //TODO test datasetin her bir satırı için :
-        //TODO      modelData verisindeki her sınıfın her sütunu için olan verilerinden 
-        //TODO      en yakın olanları hangisi ise onu seç ve test verisi içindeki sınıf ismi
-        //TODO      ile karşılaştırarak doğruluk oranı (accuracy) hesaplamasını yap!
-
         int sumTrue = 0;
         for (int i = 1; i < testDataset.Count(); i++)
         {
@@ -74,7 +65,6 @@ public class NaiveBayes
 
         System.Console.WriteLine("Naive Bayes True Prediction Count = " + sumTrue);
         System.Console.WriteLine("Naive Bayes Test Data Count = " + (testDataset.Count() - 1));
-        // testDataSet.Count() - 1 because first line is contains column names
         double accuracy = (double)sumTrue / (double)(testDataset.Count() - 1);
         return accuracy;
     }
@@ -92,14 +82,11 @@ public class NaiveBayes
                 data.Add(values[j][i]);
             }
 
-            #region Test in Linux
-            //! class data should be like "BARBUNYA,69846.580543933,10174.440752337463"
             string mean = Calculations.Mean(data.ToArray()).ToString().Replace(",", ".");
-            string standartDeviation = Calculations.StandartDeviation(data.ToArray()).ToString().Replace(",", ".");
-            #endregion
+            string standardDeviation = Calculations.StandardDeviation(data.ToArray()).ToString().Replace(",", ".");
             
             string classData = "";
-            classData += className + "," + mean + "," + standartDeviation;
+            classData += className + "," + mean + "," + standardDeviation;
             modelData.Add(classData);
         }
 
@@ -123,16 +110,16 @@ public class NaiveBayes
             {
                 List<string> data = modelData[j].Split(",").ToList();
 
-                double mean, standartDeviation, beanVal;
+                double mean, standardDeviation, beanVal;
 
                 mean = Calculations.ParseToDouble(data[1]);
-                standartDeviation = Calculations.ParseToDouble(data[2]);
+                standardDeviation = Calculations.ParseToDouble(data[2]);
 
                 beanVal = Calculations.ParseToDouble(beanDataColumns[i]);
 
 
-                double firstArea = standartDeviation * Math.Sqrt(2 * Math.PI);
-                double secondArea = -Math.Pow((beanVal - mean) / standartDeviation, 2) / 2;
+                double firstArea = standardDeviation * Math.Sqrt(2 * Math.PI);
+                double secondArea = -Math.Pow((beanVal - mean) / standardDeviation, 2) / 2;
 
                 double value = 1 / firstArea *
                             Math.Pow(Math.E, secondArea);
@@ -141,7 +128,6 @@ public class NaiveBayes
             possibilities.Add(pos);
         }
 
-        // System.Console.WriteLine(possibilities);
         List<Dictionary<string, double>> percentiles = new List<Dictionary<string, double>>();
         foreach (var possibility in possibilities)
         {

@@ -1,14 +1,11 @@
-using ConsoleApp.Entities;
-using ConsoleApp.Helpers;
+﻿using Entities;
 
-namespace ConsoleApp.KNN;
+using Utils;
 
-public class KNN
+namespace KnnAlgorithm;
+
+public class Knn
 {
-    public KNN()
-    {
-    }
-
     public double TestKNN(List<string> trainDataset, List<string> testDataset, int K = 1, bool useWeights = false)
     {
         int sumOfTrueDecisions = 0;
@@ -33,9 +30,9 @@ public class KNN
 
         for (int i = 1; i < testDataCount; i++)
         {
-            List<Neighbour> neighbourList = new List<Neighbour>();
+            List<Neighbor> neighborList = new List<Neighbor>();
             List<string> testColumns = testDataset[i].Split(",").ToList();
-            Dictionary<string, double> neighbourFreq = new Dictionary<string, double>();
+            Dictionary<string, double> neighborFreq = new Dictionary<string, double>();
             string neighborName = "";
             for (int j = 1; j < trainDataset.Count() - 1; j++)
             {
@@ -51,39 +48,37 @@ public class KNN
                 double value = Math.Sqrt(sumOfSquares);
                 if (useWeights)
                     value = (double)1 / (double)Math.Pow(value, 2);
-                neighbourList.Add(new Neighbour(neighborName, value));
+                neighborList.Add(new Neighbor(neighborName, value));
             }
 
-            if (K > neighbourList.Count())
-                K = neighbourList.Count() - 1;
+            if (K > neighborList.Count())
+                K = neighborList.Count() - 1;
 
             if (useWeights)
             {
-                neighbourList = neighbourList.OrderByDescending(x => x.Value).ToList();
+                neighborList = neighborList.OrderByDescending(x => x.Value).ToList();
                 for (int j = 0; j < K; j++)
                 {
-                    if (neighbourFreq.ContainsKey(neighbourList[j].Name))
-                        neighbourFreq[neighbourList[j].Name] += neighbourList[j].Value;
+                    if (neighborFreq.ContainsKey(neighborList[j].Name))
+                        neighborFreq[neighborList[j].Name] += neighborList[j].Value;
                     else
-                        neighbourFreq.Add(neighbourList[j].Name, neighbourList[j].Value);
+                        neighborFreq.Add(neighborList[j].Name, neighborList[j].Value);
                 }
             }
             else
             {
-                neighbourList = neighbourList.OrderBy(x => x.Value).ToList();
+                neighborList = neighborList.OrderBy(x => x.Value).ToList();
                 for (int j = 0; j < K; j++)
                 {
-                    if (neighbourFreq.ContainsKey(neighbourList[j].Name))
-                        neighbourFreq[neighbourList[j].Name] += 1;
+                    if (neighborFreq.ContainsKey(neighborList[j].Name))
+                        neighborFreq[neighborList[j].Name] += 1;
                     else
-                        neighbourFreq.Add(neighbourList[j].Name, 1);
+                        neighborFreq.Add(neighborList[j].Name, 1);
                 }
             }
 
-            // Karar Verildi
-
-            neighbourFreq = neighbourFreq.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            string decision = neighbourFreq.First().Key;
+            neighborFreq = neighborFreq.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            string decision = neighborFreq.First().Key;
 
             if (decision.Equals(testColumns[testColumns.Count() - 1]))
             {
@@ -160,12 +155,12 @@ public class KNN
 
         for (int i = 1; i < testDataCount; i++)
         {
-            Neighbour[] neighbourList = new Neighbour[100000];
+            Neighbor[] neighborList = new Neighbor[100000];
             List<string> testColumns = testDataset[i].Split(",").ToList();
-            Dictionary<string, double> neighbourFreq = new Dictionary<string, double>();
+            Dictionary<string, double> neighborFreq = new Dictionary<string, double>();
             string neighborName = "";
 
-            int neighbourListIndex = 0;
+            int neighborListIndex = 0;
 
             for (int j = 1; j < trainDataset.Count() - 1; j++)
             {
@@ -181,42 +176,40 @@ public class KNN
                 double value = Math.Sqrt(sumOfSquares);
                 if (useWeights)
                     value = (double)1 / (double)Math.Pow(value, 2);
-                neighbourList[neighbourListIndex] = new Neighbour(neighborName, value);
-                neighbourListIndex++;
+                neighborList[neighborListIndex] = new Neighbor(neighborName, value);
+                neighborListIndex++;
             }
 
-            neighbourList = neighbourList.Where(x => x != null).ToArray();
+            neighborList = neighborList.Where(x => x != null).ToArray();
 
-            if (K > neighbourList.Count())
-                K = neighbourList.Count() - 1;
+            if (K > neighborList.Count())
+                K = neighborList.Count() - 1;
 
             if (useWeights)
             {
-                neighbourList = neighbourList.OrderByDescending(x => x.Value).ToArray();
+                neighborList = neighborList.OrderByDescending(x => x.Value).ToArray();
                 for (int j = 0; j < K; j++)
                 {
-                    if (neighbourFreq.ContainsKey(neighbourList[j].Name))
-                        neighbourFreq[neighbourList[j].Name] += neighbourList[j].Value;
+                    if (neighborFreq.ContainsKey(neighborList[j].Name))
+                        neighborFreq[neighborList[j].Name] += neighborList[j].Value;
                     else
-                        neighbourFreq.Add(neighbourList[j].Name, neighbourList[j].Value);
+                        neighborFreq.Add(neighborList[j].Name, neighborList[j].Value);
                 }
             }
             else
             {
-                neighbourList = neighbourList.OrderBy(x => x.Value).ToArray();
+                neighborList = neighborList.OrderBy(x => x.Value).ToArray();
                 for (int j = 0; j < K; j++)
                 {
-                    if (neighbourFreq.ContainsKey(neighbourList[j].Name))
-                        neighbourFreq[neighbourList[j].Name] += 1;
+                    if (neighborFreq.ContainsKey(neighborList[j].Name))
+                        neighborFreq[neighborList[j].Name] += 1;
                     else
-                        neighbourFreq.Add(neighbourList[j].Name, 1);
+                        neighborFreq.Add(neighborList[j].Name, 1);
                 }
             }
 
-            // Karar Verildi
-
-            neighbourFreq = neighbourFreq.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            string decision = neighbourFreq.First().Key;
+            neighborFreq = neighborFreq.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            string decision = neighborFreq.First().Key;
 
             if (decision.Equals(testColumns[testColumns.Count() - 1]))
             {

@@ -1,23 +1,11 @@
-using System.Globalization;
+﻿using System.Globalization;
 
-namespace ConsoleApp.Helpers;
+namespace Utils;
 
 public static class Calculations
 {
-    // OS specific double calculation
-    public static double ParseToDouble(string value)
-    {
-        //! Changed CultureInfo
-        return double.Parse(value, CultureInfo.InvariantCulture);
-        // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        // {
-        //     return double.Parse(value.Replace(".", ","));
-        // }
-        // else
-        // {
-        //     return double.Parse(value);
-        // }
-    }
+    public static double ParseToDouble(string value) =>
+        double.Parse(value, CultureInfo.InvariantCulture);
 
     public static double Mean(double[] values)
     {
@@ -33,7 +21,7 @@ public static class Calculations
         return mean;
     }
 
-    public static double StandartDeviation(double[] values)
+    public static double StandardDeviation(double[] values)
     {
         double sum = 0;
         double mean = Mean(values);
