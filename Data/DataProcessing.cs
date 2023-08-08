@@ -9,7 +9,7 @@ public class DataProcessing
 
     public DataProcessing() { }
 
-    public DataProcessing(string dataFilePath, bool random) : this()
+    public DataProcessing(string dataFilePath, bool random)
     {
         _dataFilePath = dataFilePath;
         _random = random;
