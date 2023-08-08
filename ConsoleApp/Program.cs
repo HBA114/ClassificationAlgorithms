@@ -1,33 +1,33 @@
-﻿using System.Text;
-using System.Diagnostics;
-using ConsoleApp.Data;
-using ConsoleApp.KNN;
-using ConsoleApp.NaiveBayes;
+﻿using System.Diagnostics;
+using System.Text;
+
+using Data;
+
+using KnnAlgorithm;
+
+using NaiveBayesAlgorithm;
 
 #region Path Define
-string datasetCSVFilePath = "Data/dry_bean_dataset.csv";
-string trainDataSavePath = "Data/dry_bean_dataset_train.csv";
-string testDataSavePath = "Data/dry_bean_dataset_test.csv";
+string datasetCSVFilePath = "Data/DataFiles/dry_bean_dataset.csv";
+string trainDataSavePath = "Data/DataFiles/dry_bean_dataset_train.csv";
+string testDataSavePath = "Data/DataFiles/dry_bean_dataset_test.csv";
 string naiveBayesModelSavePath = "Data/Models/NaiveBayesModel.csv";
 #endregion
 
 #region Path Combine
 string projectDirectory = Environment.CurrentDirectory;
-string pathVariable = "";
-if (projectDirectory.Contains("bin"))
-    projectDirectory = projectDirectory.Split("bin")[0];
 
-if (!projectDirectory.Contains("ConsoleApp"))
-    pathVariable = "ConsoleApp";
+if (projectDirectory.Contains("ConsoleApp"))
+    projectDirectory = projectDirectory.Split("ConsoleApp")[0];
 
-string filePath = Path.Combine(projectDirectory, pathVariable, datasetCSVFilePath);
-string trainDataPath = Path.Combine(projectDirectory, pathVariable, trainDataSavePath);
-string testDataPath = Path.Combine(projectDirectory, pathVariable, testDataSavePath);
-string naiveBayesModelPath = Path.Combine(projectDirectory, pathVariable, naiveBayesModelSavePath);
+string filePath = Path.Combine(projectDirectory, datasetCSVFilePath);
+string trainDataPath = Path.Combine(projectDirectory, trainDataSavePath);
+string testDataPath = Path.Combine(projectDirectory, testDataSavePath);
+string naiveBayesModelPath = Path.Combine(projectDirectory, naiveBayesModelSavePath);
 #endregion
 
 #region Creating Class references and Assigning new Class
-Tuple<List<string>, List<string>>? seperatedData = null;
+Tuple<List<string>, List<string>>? separatedData = null;
 List<string>? trainData = null;
 List<string>? testData = null;
 int K = 5;
@@ -37,14 +37,14 @@ StringBuilder sb = new StringBuilder();
 #endregion
 
 List<string> baseOperations = new() { "Data Operations", "Naive Bayes Operations", "KNN", "Exit" };
-List<string> dataOperations = new() { "Read Data", "Seperate Data" };
+List<string> dataOperations = new() { "Read Data", "Separate Data" };
 List<string> naiveBayesOperations = new() { "Run Test With Saved Model", "Train New Model and Run Test" };
-List<string> knnOperations = new() { "Run KNN Test", "Define K (Neighbour Count, default 5)", "Use Weights (default false)", "Main Menu" };
+List<string> knnOperations = new() { "Run KNN Test", "Define K (Neighbor Count, default 5)", "Use Weights (default false)", "Main Menu" };
 
 #region Test
 // KNN knn2 = new KNN();
 // DataProcessing dataProcessing2 = new DataProcessing();
-// var result = await dataProcessing2.SeperateTrainAndTest(
+// var result = await dataProcessing2.SeparateTrainAndTest(
 //                         dataFilePath: filePath, trainDataPercentile: 0.7f, trainDataFilePath: trainDataPath, testDataFilePath: testDataPath, random: true);
 
 // Console.WriteLine("KNN Accuracy Calculating Array ...");
@@ -113,8 +113,8 @@ while (!exit)
     {
         case 1:
             DataProcessing dataProcessing = new DataProcessing();
-            #region Read Data or Seperate Data
-            int selectedDataOpeation = 0;
+            #region Read Data or Separate Data
+            int selectedDataOperation = 0;
             sb.Remove(0, sb.Length);    // resetting string builder
 
             // Adding current options to string builder
@@ -128,29 +128,29 @@ while (!exit)
                 Console.WriteLine(sb.ToString());
                 Console.WriteLine("Please enter number...");
                 string? input = Console.ReadLine();
-                Int32.TryParse(input, out selectedDataOpeation);
-                if (selectedDataOpeation < 1 || selectedDataOpeation > dataOperations.Count)
+                Int32.TryParse(input, out selectedDataOperation);
+                if (selectedDataOperation < 1 || selectedDataOperation > dataOperations.Count)
                     continue;
                 else break;
             }
 
-            if (selectedDataOpeation == 1)
+            if (selectedDataOperation == 1)
             {
                 //! Warning: If you do not have train and test data files as csv comment next line which,
-                //! includes ReadTrainAndTestData function then uncomment the line includes SeperateTrainAndTest function
+                //! includes ReadTrainAndTestData function then uncomment the line includes SeparateTrainAndTest function
                 //! if you have train and data files:
-                seperatedData = await dataProcessing.ReadTrainAndTestData(trainDataFilePath: trainDataPath, testDataFilePath: testDataPath);
+                separatedData = await dataProcessing.ReadTrainAndTestData(trainDataFilePath: trainDataPath, testDataFilePath: testDataPath);
             }
             else
             {
                 //! if you do not want to save train and test data:
-                //! Use SeperateTrainAndTest method with only 1 argument trainDataPercentile
+                //! Use SeparateTrainAndTest method with only 1 argument trainDataPercentile
                 //! Warning: If you do not have train and test data files as csv uncomment next line
-                seperatedData = await dataProcessing.SeperateTrainAndTest(
+                separatedData = await dataProcessing.SeparateTrainAndTest(
                         dataFilePath: filePath, trainDataPercentile: 0.7f, trainDataFilePath: trainDataPath, testDataFilePath: testDataPath, random: true);
             }
-            trainData = seperatedData.Item1;
-            testData = seperatedData.Item2;
+            trainData = separatedData.Item1;
+            testData = separatedData.Item2;
             #endregion
 
             break;
@@ -171,8 +171,8 @@ while (!exit)
                 Console.WriteLine(sb.ToString());
                 Console.WriteLine("Please enter number...");
                 string? input = Console.ReadLine();
-                Int32.TryParse(input, out selectedDataOpeation);
-                if (selectedDataOpeation < 1 || selectedDataOpeation > dataOperations.Count)
+                Int32.TryParse(input, out selectedDataOperation);
+                if (selectedDataOperation < 1 || selectedDataOperation > dataOperations.Count)
                     continue;
                 else break;
             }
@@ -207,7 +207,7 @@ while (!exit)
             Console.ReadLine();
             break;
         case 3:
-            KNN knn = new KNN();
+            Knn knn = new Knn();
             #region KNN Testing
             bool runKNN = true;
             while (runKNN)
@@ -279,7 +279,7 @@ while (!exit)
                         #region K Options
                         while (true)
                         {
-                            Console.WriteLine("Please enter number for K (neighbour count)...");
+                            Console.WriteLine("Please enter number for K (neighbor count)...");
                             string? input = Console.ReadLine();
                             Int32.TryParse(input, out K);
                             if (K < 1)
